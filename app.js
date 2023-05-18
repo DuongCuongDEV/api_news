@@ -4,26 +4,23 @@ const port = 3000;
 const multer = require('multer');
 
 const db = require('./connect');
-// Middleware để xử lý các yêu cầu trước khi đến các tuyến đường (routes)
 app.use(express.json());
 
 
 
-// Cấu hình multer để xử lý tải lên ảnh
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, 'uploads/'); // Thư mục để lưu trữ ảnh tải lên
+      cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
       const timestamp = Date.now();
-      cb(null, `${timestamp}_${file.originalname}`); // Đặt tên file dựa trên thời gian và tên gốc
+      cb(null, `${timestamp}_${file.originalname}`); 
     }
   });
   
   const upload = multer({ storage });
 
   app.get('/posts', (req, res) => {
-    // Thực hiện truy vấn SQL bằng kết nối đã nhập (import) từ db.js
     db.query('SELECT * FROM posts', (error, results) => {
       if (error) {
         console.error('Lỗi truy vấn:', error);
@@ -33,6 +30,44 @@ const storage = multer.diskStorage({
       }
     });
   });
+
+  app.delete('/posts/:id', (req, res) => {
+    const postId = req.params.id;
+  
+    const sqlDelete = `DELETE FROM posts WHERE id_post = ${postId}`;
+  
+    db.query(sqlDelete, (error, results) => {
+      if (error) {
+        console.error('Lỗi xoá bài viết:', error);
+        res.status(500).json({ error: 'Lỗi xoá bài viết' });
+        return;
+      }
+      console.log('Bài viết đã được xoá thành công');
+      res.json({ message: 'Bài viết đã được xoá thành công' });
+    });
+  });
+  
+  app.put('/posts/:id', upload.single('image'), (req, res) => {
+    const postId = req.params.id;
+  const { title, content } = req.body;
+  const imageName = req.file.filename; 
+
+
+  const sqlUpdate = `UPDATE posts SET title = ?, content = ?, image = ? WHERE id_post = ${postId}`;
+  const values = [title, content, imageName];
+
+  db.query(sqlUpdate,values, (error, results) => {
+    if (error) {
+      console.error('Lỗi cập nhật bài viết:', error);
+      res.status(500).json({ error: 'Lỗi cập nhật bài viết' });
+      return;
+    }
+    console.log('Bài viết đã được cập nhật thành công');
+    res.json({ message: 'Bài viết đã được cập nhật thành công' });
+  });
+});
+
+
 
   app.post('/posts', upload.single('image'), (req, res) => {
     const { id_user, title, content } = req.body;
@@ -54,7 +89,6 @@ const storage = multer.diskStorage({
 
 
 app.get('/users', (req, res) => {
-    // Thực hiện truy vấn SQL bằng kết nối đã nhập (import) từ db.js
     db.query('SELECT * FROM users', (error, results) => {
       if (error) {
         console.error('Lỗi truy vấn:', error);
@@ -112,7 +146,6 @@ app.get('/users', (req, res) => {
       }
     });
   });
-// Lắng nghe kết nối từ cổng đã chỉ định
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
