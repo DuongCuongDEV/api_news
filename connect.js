@@ -2,10 +2,11 @@ const mysql = require('mysql2');
 
 // Tạo kết nối
 const connection = mysql.createConnection({
-  host: 'localhost',     // Địa chỉ máy chủ MySQL
-  user: 'root',      // Tên người dùng MySQL
-  password: '12345678',  // Mật khẩu người dùng MySQL
-  database: 'news'   // Tên cơ sở dữ liệu MySQL
+  host: '127.0.0.1',
+  port: '3306',
+  user: 'root',
+  password: '12345678',
+  database: 'news'
 });
 
 module.exports = connection;
