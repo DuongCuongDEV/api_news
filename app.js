@@ -70,11 +70,11 @@ const storage = multer.diskStorage({
 
 
   app.post('/posts', upload.single('image'), (req, res) => {
-    const { id_user, title, content } = req.body;
+    const { title, content } = req.body;
     const image = req.file.filename;
   
     const post = {
-        id_user, title, image, content
+         title, image, content
     };
   
     db.query('INSERT INTO posts SET ?', post, (error, results) => {
