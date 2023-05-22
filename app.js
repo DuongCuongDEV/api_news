@@ -34,7 +34,7 @@ const storage = multer.diskStorage({
   app.delete('/posts/:id', (req, res) => {
     const postId = req.params.id;
   
-    const sqlDelete = `DELETE FROM posts WHERE id_post = ${postId}`;
+    const sqlDelete = `DELETE FROM posts WHERE id = ${postId}`;
   
     db.query(sqlDelete, (error, results) => {
       if (error) {
@@ -47,14 +47,13 @@ const storage = multer.diskStorage({
     });
   });
   
-  app.put('/posts/:id', upload.single('image'), (req, res) => {
+  app.put('/posts/:id', (req, res) => {
     const postId = req.params.id;
-  const { title, content } = req.body;
-  const imageName = req.file.filename; 
+  const { tieuDe, noiDung, uri } = req.body;
 
 
-  const sqlUpdate = `UPDATE posts SET title = ?, content = ?, image = ? WHERE id_post = ${postId}`;
-  const values = [title, content, imageName];
+  const sqlUpdate = `UPDATE posts SET tieuDe = ?, noiDung = ?, uri = ? WHERE id = ${postId}`;
+  const values = [tieuDe, noiDung, uri];
 
   db.query(sqlUpdate,values, (error, results) => {
     if (error) {
@@ -69,12 +68,12 @@ const storage = multer.diskStorage({
 
 
 
-  app.post('/posts', upload.single('image'), (req, res) => {
-    const { title, content } = req.body;
-    const image = req.file.filename;
+  app.post('/posts',  (req, res) => {
+    const { theLoai, tieuDe, noiDung, uri } = req.body;
+    
   
     const post = {
-         title, image, content
+         theLoai, tieuDe, uri, noiDung
     };
   
     db.query('INSERT INTO posts SET ?', post, (error, results) => {
