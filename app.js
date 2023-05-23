@@ -69,11 +69,11 @@ const storage = multer.diskStorage({
 
 
   app.post('/posts',  (req, res) => {
-    const { theLoai, tieuDe, noiDung, uri } = req.body;
+    const { tieuDe, noiDung, theLoai, uri } = req.body;
     
   
     const post = {
-         theLoai, tieuDe, uri, noiDung
+         tieuDe, uri, noiDung, theLoai
     };
   
     db.query('INSERT INTO posts SET ?', post, (error, results) => {
@@ -99,16 +99,18 @@ app.get('/users', (req, res) => {
   });
 
   app.post('/users', (req, res) => {
+    console.log("hdhdhdh");
     const { fullName, email, password, permission } = req.body;
   
     const user = { fullName, email, password, permission };
   
     db.query('INSERT INTO users SET ?', user, (error, results) => {
       if (error) {
+        console.log("vor");
         console.error('Lỗi truy vấn:', error);
         res.status(500).send('Lỗi server');
       } else {
-        res.status(201).send('Người dùng đã được tạo thành công');
+        res.json(results);
       }
     });
   });

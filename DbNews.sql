@@ -14,14 +14,11 @@ CREATE TABLE posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     theLoai VARCHAR(100),
     tieuDe VARCHAR(100),
-    uri VARCHAR(255),
+    uri VARCHAR(1000),
     noiDung TEXT
 );
 
-INSERT INTO users ( fullName, email, password, permission)
-VALUES ('Alice', 'alice@example.com', 'password123','admin');
-INSERT INTO users ( fullName, email, password, permission)
-VALUES ('Bob', 'bob@example.com', 'password456', 'user');
 
 
-select * from posts
+select * from posts;
+select * from users
