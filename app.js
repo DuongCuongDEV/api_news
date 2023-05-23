@@ -110,7 +110,6 @@ app.get('/users', (req, res) => {
   });
 
   app.post('/users', (req, res) => {
-    console.log("hdhdhdh");
     const { fullName, email, password, permission } = req.body;
   
     const user = { fullName, email, password, permission };
