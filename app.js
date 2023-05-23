@@ -87,6 +87,17 @@ const storage = multer.diskStorage({
   });
 
 
+  app.post('/users/login', (req, res) => {
+    db.query('SELECT * FROM users where email = ? && password = ?',[req.body.email, req.body.password], (error, results) => {
+      if (error) {
+        console.error('Lỗi truy vấn:', error);
+        res.status(500).send('Lỗi server');
+      } else {
+        res.json(results);
+      }
+    });
+  });
+
 app.get('/users', (req, res) => {
     db.query('SELECT * FROM users', (error, results) => {
       if (error) {
