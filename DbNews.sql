@@ -18,6 +18,8 @@ CREATE TABLE posts (
     noiDung TEXT
 );
 
+INSERT INTO users (fullName, email, password, permission)
+VALUES ('Admin', 'admin@gmail.com', 'admin123', 'admin');
 
 
 select * from posts;
