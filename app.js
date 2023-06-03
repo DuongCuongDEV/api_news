@@ -142,9 +142,9 @@ app.get('/users', (req, res) => {
 
   app.put('/users/update/:id', (req, res) => {
     const userId = req.params.id;
-    const password = req.body;
+    const password = req.body.password;
     // console.log(password);
-    db.query('UPDATE users set password = ? WHERE id = ?;', [password, userId], (error, results) => {
+    db.query('UPDATE users SET password = ? WHERE id = ?;', [password, userId], (error, results) => {
       if (error) {
         console.error('Lỗi truy vấn:', error);
         res.status(500).send('Lỗi server');
