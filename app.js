@@ -140,13 +140,11 @@ app.get('/users', (req, res) => {
     });
   });
 
-  app.put('/users/:id', (req, res) => {
+  app.put('/users/update/:id', (req, res) => {
     const userId = req.params.id;
-    const { fullName, email, password, permission } = req.body;
-  
-    const user = { fullName, email, password, permission };
-  
-    db.query('UPDATE users SET ? WHERE id = ?', [user, userId], (error, results) => {
+    const password = req.body;
+    // console.log(password);
+    db.query('UPDATE users set password = ? WHERE id = ?;', [password, userId], (error, results) => {
       if (error) {
         console.error('Lỗi truy vấn:', error);
         res.status(500).send('Lỗi server');
@@ -157,6 +155,8 @@ app.get('/users', (req, res) => {
       }
     });
   });
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

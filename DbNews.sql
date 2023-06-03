@@ -21,6 +21,10 @@ CREATE TABLE posts (
 INSERT INTO users (fullName, email, password, permission)
 VALUES ('Admin', 'admin@gmail.com', 'admin123', 'admin');
 
+INSERT INTO users (fullName, email, password, permission)
+VALUES ('cuong', 'cuong@gmail.com', 'cuong', 'user');
+
+
 
 select * from posts;
 select * from users
