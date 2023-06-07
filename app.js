@@ -140,10 +140,10 @@ app.get('/users', (req, res) => {
     });
   });
 
-  app.put('/users/update/:id', (req, res) => {
+  app.put('/users/changePassword/:id', (req, res) => {
     const userId = req.params.id;
     const password = req.body.password;
-    // console.log(password);
+    console.log(password);
     db.query('UPDATE users SET password = ? WHERE id = ?;', [password, userId], (error, results) => {
       if (error) {
         console.error('Lỗi truy vấn:', error);
