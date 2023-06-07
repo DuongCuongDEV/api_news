@@ -156,6 +156,22 @@ app.get('/users', (req, res) => {
     });
   });
 
+  app.get('/posts/search', (req, res) => {
+    const keyword = req.query.keyword;
+
+    const sqlSearch = `SELECT * FROM posts WHERE tieuDe LIKE '%${keyword}%'`;
+    db.query(sqlSearch, (error, results) => {
+      if (error) {
+        console.error('Lỗi tìm kiếm bài viết:', error);
+        res.status(500).json({ error: 'Lỗi tìm kiếm bài viết' });
+        return;
+      }
+
+      console.log('Kết quả tìm kiếm:', results);
+      res.json(results);
+    });
+  });
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
